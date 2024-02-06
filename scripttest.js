@@ -1,5 +1,6 @@
 let questionsAnswered = 0;
 let currentDifficultyIndex = 0; 
+let letterProvidedAsClue = ''; // Variable to store the letter provided as a clue
 
 const questions = {
     easy: [
@@ -54,7 +55,6 @@ let currentWord = null;
 let score = 0;
 let cluesLeft = 3;
 let incorrectGuesses = 0;
-
 
 function displayQuestion() {
     // Filter out questions that have already been asked in the current game mode
@@ -114,7 +114,6 @@ function displayQuestion() {
     displayAlphabet();
 }
 
-
 function displayWord() {
     const wordDiv = document.getElementById('word');
     wordDiv.innerHTML = '';
@@ -128,7 +127,7 @@ function displayWord() {
     }
 }
 
-function displayAlphabet() { //Displays all the alphabets
+function displayAlphabet() {
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     const alphabetDiv = document.getElementById('alphabet');
     alphabetDiv.innerHTML = '';
@@ -146,6 +145,12 @@ function displayAlphabet() { //Displays all the alphabets
                 handleGuess(alphabet[j]);
                 button.disabled = true; // Disable the button after it's clicked
             });
+
+            // Add CSS class to highlight the letter provided as a clue
+            if (alphabet[j] === letterProvidedAsClue) {
+                button.classList.add('clue-highlight');
+            }
+
             row.appendChild(button);
         }
         alphabetDiv.appendChild(row);
@@ -177,7 +182,7 @@ function handleGuess(letter) {
                     questionsAnswered = 0; // Reset questions answered counter
                     document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
                 } else {
-                    alert('Congratulations! You have completed all difficulty levels. You have a final score of: ' + score);
+                    displayPopup('Congratulations! You have completed all difficulty levels. You have a final score of: ' + score);
                     resetGame();
                 }
             } else {
@@ -192,8 +197,6 @@ function handleGuess(letter) {
         }
     }
 }
-
-
 
 // Function to display the pop-up for the next question
 function displayNextQuestionPopup() {
@@ -212,7 +215,6 @@ document.getElementById('nextQuestionButton').addEventListener('click', function
     hideNextQuestionPopup(); // Hide the pop-up when the button is clicked
     displayQuestion(); // Display the next question
 });
-
 
 function updateHearts() {
     const heartsSpan = document.getElementById('hearts');
@@ -339,13 +341,17 @@ function revealLetter(letter) {
             revealed = true; // Set the flag to true to indicate that a letter has been revealed
         }
     });
+
+    // Store the letter provided as a clue
+    letterProvidedAsClue = letter;
+    // Redraw the alphabet buttons to apply highlighting
+    displayAlphabet();
 }
 
 function gameOver() {
     displayPopup('Game Over! Your final score is : ' + score);
     resetGame();
 }
-
 
 function resetGame() {
     score = 0;
@@ -360,20 +366,19 @@ function resetGame() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-            var rulesPopup = document.getElementById("rulesPopup");
-            var ruleBtn = document.getElementById("ruleBtn");
-            var closeBtn = document.getElementById("closeBtn");
+    var rulesPopup = document.getElementById("rulesPopup");
+    var ruleBtn = document.getElementById("ruleBtn");
+    var closeBtn = document.getElementById("closeBtn");
 
-            ruleBtn.addEventListener("click", function() {
-                rulesPopup.style.display = "block";
-            });
+    ruleBtn.addEventListener("click", function() {
+        rulesPopup.style.display = "block";
+    });
 
-            closeBtn.addEventListener("click", function() {
-                rulesPopup.style.display = "none";
-            });
-        });
-		
-		
+    closeBtn.addEventListener("click", function() {
+        rulesPopup.style.display = "none";
+    });
+});
+
 function updateGameModeColor() {
     const gameModeElement = document.getElementById('gameMode');
     
