@@ -79,7 +79,7 @@ function displayQuestion() {
                 questionsAnswered = 0;
             } else {
                 // Handle case where all questions in all difficulty levels have been asked
-                alert('Congratulations! You have completed all difficulty levels.');
+                displayPopUp('Congratulations! You have completed all difficulty levels.');
                 resetGame();
                 return;
             }
@@ -91,7 +91,7 @@ function displayQuestion() {
             document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
         } else {
             // Handle case where all questions in all difficulty levels have been asked
-            alert('Congratulations! You have completed all difficulty levels.');
+            displaypopUp('Congratulations! You have completed all difficulty levels.');
             resetGame();
             return;
         }
@@ -182,7 +182,6 @@ function handleGuess(letter) {
                     questionsAnswered = 0; // Reset questions answered counter
                     document.getElementById('gameMode').textContent = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
                 } else {
-                    displayPopup('Congratulations! You have completed all difficulty levels. You have a final score of: ' + score);
                     resetGame();
                 }
             } else {
